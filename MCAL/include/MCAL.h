@@ -14,7 +14,7 @@ struct port {
 };
 
 struct conf {
-	struct port *port_pointer;
+	volatile struct port *port_pointer;
 	char dir;
 	char pin_no;
 	char value;	

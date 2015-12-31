@@ -23,7 +23,7 @@ void init_keypad()
 
 char getKey()
 {
-	volatile struct conf c;
+	struct conf c;
 	c.port_pointer = PIND_ADDR;
 	
 	char col = 0, row = 0;
