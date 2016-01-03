@@ -15,14 +15,8 @@
 
 void init_lcd()
 {
-	struct conf con;
-	con.port_pointer = PINA_ADDR;
-	con.value= 0xff;
-	set_direction_port(con);
-	
-	con.port_pointer = PINC_ADDR;
-	con.value= 0xff;
-	set_direction_port(con);
+	set_direction_port(DDR_ADDR(PINA_ADDR), 0xff);
+	set_direction_port(DDR_ADDR(PINC_ADDR), 0xff);
 	
 	#ifdef LCD_4_BIT
 	lcd_send_cmd(0x02);
@@ -36,38 +30,20 @@ void init_lcd()
 
 void set_control_reg(char reg)
 {
-	struct conf con;
-	con.pin_no = 2;
-	con.dir = 1;
-	con.port_pointer = PINA_ADDR;
-	con.value=reg;
-	
-	set_direction_pin(con);
-	write_pin(con);
+	set_direction_pin(DDR_ADDR(PINA_ADDR), 2, 1);
+	write_pin(PORT_ADDR(PINA_ADDR), 2, reg);
 }
 
 void set_lcd_dir(char dir)
 {
-	struct conf con;
-	con.pin_no = 1;
-	con.dir = 1;
-	con.port_pointer = PINA_ADDR;
-	con.value=dir;
-	
-	set_direction_pin(con);
-	write_pin(con);
+	set_direction_pin(DDR_ADDR(PINA_ADDR), 1, 1);
+	write_pin(PORT_ADDR(PINA_ADDR), 1, dir);
 }
 
 void set_lcd_enable(char is_enabled)
 {
-	struct conf con;
-	con.pin_no = 0;
-	con.dir = 1;
-	con.port_pointer = PINA_ADDR;
-	con.value=is_enabled;
-
-	set_direction_pin(con);
-	write_pin(con);
+	set_direction_pin(DDR_ADDR(PINA_ADDR), 0, 1);
+	write_pin(PORT_ADDR(PINA_ADDR), 0, is_enabled);
 }
 
 void lcd_send_cmd(char cmd)
@@ -120,11 +96,7 @@ void lcd_set_pos_xy(char x, char y)
 
 void lcd_send(char c)
 {
-	struct conf con;
-	con.port_pointer = PINC_ADDR;
-	con.value= c;
-	
-	write_port(con);
+	write_port(PORT_ADDR(PINC_ADDR), c);
 }
 
 void lcd_save()

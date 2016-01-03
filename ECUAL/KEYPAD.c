@@ -12,28 +12,23 @@
 
 void init_keypad()
 {
-	struct conf c;
-	c.port_pointer = PIND_ADDR;
-	c.value = 0xf0;	
-	set_direction_port(c);
-
-	c.value = 0xff;
-	write_port(c);
+	set_direction_port(DDR_ADDR(PIND_ADDR), 0xf0);
+	write_port(PORT_ADDR(PIND_ADDR), 0xff);
 }
 
 char getKey()
 {
-	struct conf c;
-	c.port_pointer = PIND_ADDR;
+	char* port_ptr = make_pointer(PORT_ADDR(PIND_ADDR));
+	volatile char* pin_ptr = make_pointer(PIND_ADDR);
 	
 	char col = 0, row = 0;
 	for(col = 0; col < 4; col++) {
-		c.port_pointer->portx = c.port_pointer->portx | 0xf0;
-		c.port_pointer->portx &= ~(1 << col) << 4;
+		add_to_port(PORT_ADDR(PIND_ADDR), 0xf0);
+		subtract_from_port(PORT_ADDR(PIND_ADDR), (1 << col) << 4);
 		_delay_ms(1);
-		row = c.port_pointer->pinx & 0x0f;
+		row = *(pin_ptr) & 0x0f;
 		if(row != 0x0f) {
-			while((c.port_pointer->pinx & 0x0F) != 0x0F);
+			while((*(pin_ptr) & 0x0f) != 0x0F);
 			break;
 		}
 	}

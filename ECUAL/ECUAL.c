@@ -11,14 +11,8 @@
 #include "include/ECUAL.h"
 
 
-char read_button(char port_addr, char pin_no)
-{
-	struct conf con;
-	con.pin_no = pin_no;
-	con.dir = 0;
-	con.port_pointer = port_addr;
-	con.value=1;
-	
-	set_direction_pin(con);
-	return read_pin(con);
+char read_button(char pin_addr, char pin_no)
+{	
+	set_direction_pin(DDR_ADDR(pin_addr), pin_no, 0);
+	return read_pin(pin_addr, pin_no);
 }

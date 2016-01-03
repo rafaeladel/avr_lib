@@ -7,22 +7,13 @@
 
 #include "../../HAL/include/DIO.h"
 
-struct port {
-	char pinx;
-	char ddrx;
-	char portx;	
-};
+void set_direction_pin(char, char, char);
+char read_pin(char, char);
+void write_pin(char, char, char);
 
-struct conf {
-	volatile struct port *port_pointer;
-	char dir;
-	char pin_no;
-	char value;	
-};
+void set_direction_port(char, char);
+void write_port(char, char);
+void add_to_port(char, char);
+void subtract_from_port(char, char);
 
-void set_direction_pin(struct conf);
-char read_pin(struct conf);
-void write_pin(struct conf);
-
-void set_direction_port(struct conf);
-void write_port(struct conf);
+char* make_pointer(char);

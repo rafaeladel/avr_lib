@@ -9,7 +9,6 @@
 #include "include/MCAL.h"
 #include "include/SPI.h"
 
-#define SPI_SLAVE
 
 void spi_init(void)
 {
@@ -39,21 +38,14 @@ void _spi_init_master(void)
 	SPCR = 1 << MSTR;
 	
 	//Set data direction
-	struct conf c;
-	c.port_pointer = PINB_ADDR;
-	c.dir = 1;
-
 	//SS
-	c.pin_no = 4;
-	set_direction_pin(c);
+	set_direction_pin(DDR_ADDR(PINB_ADDR), 4, 1);
 
 	//MOSI
-	c.pin_no = 5;
-	set_direction_pin(c);
+	set_direction_pin(DDR_ADDR(PINB_ADDR), 5, 1);
 
 	//SCK
-	c.pin_no = 7;
-	set_direction_pin(c);
+	set_direction_pin(DDR_ADDR(PINB_ADDR), 7, 1);
 }
 
 void _spi_init_slave(void) 
@@ -62,13 +54,8 @@ void _spi_init_slave(void)
 	SPCR &= ~(1 << MSTR);
 
 	//Set data direction
-	struct conf c;
-	c.port_pointer = PINB_ADDR;
-	c.dir = 1;
-
 	//MISO
-	c.pin_no = 6;
-	set_direction_pin(c);
+	set_direction_pin(DDR_ADDR(PINB_ADDR), 6, 1);
 }
 
 void spi_transfer(char data)
