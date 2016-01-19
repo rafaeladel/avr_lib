@@ -9,12 +9,7 @@
 #ifndef KEYPAD_H_
 #define KEYPAD_H_
 
-char keymap[4][4] = {
-	{'7', '8', '9', '/'},
-	{'4', '5', '6', '*'},
-	{'1', '2', '3', '-'},
-	{'c', '0', '=', '+'}
-};
+char keymap[4][4];
 
 void init_keypad();
 char getKey();

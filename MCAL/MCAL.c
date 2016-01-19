@@ -36,7 +36,7 @@ void write_pin(char port_address, char pin_no, char value)
 
 void set_direction_port(char ddr_address, char value)
 {
-	char* ddr_ptr = make_pointer(ddr_address);
+	volatile char* ddr_ptr = make_pointer(ddr_address);
 	*ddr_ptr = value;
 }
 

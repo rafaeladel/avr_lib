@@ -6,25 +6,33 @@
  */ 
 #include <avr/io.h>
 
+#include "include/config.h"
 #include "../MCAL/include/MCAL.h"
 #include "include/KEYPAD.h"
 #include <util/delay.h>
 
+char keymap[4][4]  = {
+	{'7', '8', '9', '/'},
+	{'4', '5', '6', '*'},
+	{'1', '2', '3', '-'},
+	{'c', '0', '=', '+'}
+};
+
 void init_keypad()
 {
-	set_direction_port(DDR_ADDR(PIND_ADDR), 0xf0);
-	write_port(PORT_ADDR(PIND_ADDR), 0xff);
+	set_direction_port(DDR_ADDR(CONFIG_KEYPAD_OUT_PORT), 0xf0);
+	write_port(PORT_ADDR(CONFIG_KEYPAD_OUT_PORT), 0xff);
 }
 
 char getKey()
 {
-	char* port_ptr = make_pointer(PORT_ADDR(PIND_ADDR));
-	volatile char* pin_ptr = make_pointer(PIND_ADDR);
+	char* port_ptr = make_pointer(PORT_ADDR(CONFIG_KEYPAD_OUT_PORT));
+	volatile char* pin_ptr = make_pointer(CONFIG_KEYPAD_OUT_PORT);
 	
 	char col = 0, row = 0;
 	for(col = 0; col < 4; col++) {
-		add_to_port(PORT_ADDR(PIND_ADDR), 0xf0);
-		subtract_from_port(PORT_ADDR(PIND_ADDR), (1 << col) << 4);
+		add_to_port(PORT_ADDR(CONFIG_KEYPAD_OUT_PORT), 0xf0);
+		subtract_from_port(PORT_ADDR(CONFIG_KEYPAD_OUT_PORT), (1 << col) << 4);
 		_delay_ms(1);
 		row = *(pin_ptr) & 0x0f;
 		if(row != 0x0f) {

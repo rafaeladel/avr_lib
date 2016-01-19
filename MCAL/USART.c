@@ -8,7 +8,7 @@ void usart_init()
 	//UBRRH = (unsigned char) (6 >> 8);
 	//UBRRL = (unsigned char) 6;
 	UBRRH = 0x00;
-	UBRRL = 12;
+	UBRRL = 51;
 	//Enable TX & RX
 	UCSRB |= (1 << TXEN) | (1 << RXEN);
 

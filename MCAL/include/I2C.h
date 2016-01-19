@@ -18,8 +18,9 @@ char i2c_check_status(char);
 char i2c_read_ack();
 char i2c_read_nack();;
 
-void send_data(char);
-void read_data(unsigned char*, char);
+void send_data(char, char);
+void send_data_array(char, char*, char);
+void read_data(char, unsigned char*, char);
 
 
 
